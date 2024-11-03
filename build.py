@@ -1,4 +1,4 @@
-import mycrsswrd.main
+import feeds
 from time import sleep
 from jinja2 import Template
 from datetime import datetime
@@ -16,7 +16,7 @@ formatter = logging.Formatter('%(asctime)s [%(levelname)s]: %(message)s')
 ch.setFormatter(formatter)
 logger.addHandler(ch)
 
-setters = mycrsswrd.main.get_setters()
+setters = feeds.get_setters()
 
 if not setters:
     logger.error("Could not get setter list")
@@ -50,7 +50,7 @@ for setter in setters:
     if not check_recent(user, last_published):
         continue
     else:
-        feed = mycrsswrd.main.process_setter(user)
+        feed = feeds.process_setter(user)
         if not feed:
             no_errors = False
             continue
@@ -60,7 +60,7 @@ for setter in setters:
     sleep(1)
 
 if updated:
-    feed = mycrsswrd.main.generate_global_feed()
+    feed = feeds.generate_global_feed()
     if not feed:
         no_errors = False
     with open("site/feed/ALL_SETTERS.xml", "w", encoding="utf-8") as f:

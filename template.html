@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>mycRSSwrd — RSS feeds for MyCrossword</title>
+  <link href="style.css" rel="stylesheet" />
+</head>
+
+<body>
+  <header>
+    <h1>myc<span class="title-rss">rss</span>wrd</h1>
+  </header>
+  <div class="main">
+    <div class="about-text">
+      <h2>What is this?</h2>
+      <p>
+        This website provides RSS feeds for
+        <a href="https://mycrossword.co.uk">MyCrossword</a> to notify solvers
+        when their favourite setters publish new puzzles. This site is not
+        affiliated with MyCrossword and is maintained for the community by setter Dyno.
+      </p>
+      <h2>What is RSS?</h2>
+      <p>
+        An RSS feed is a summary of the content on a website. An app called a
+        feed reader allows you to subscribe to feeds and displays newly-published content for you to browse at your
+        leisure. See this
+        <a
+          href="https://pluralistic.net/2024/10/16/keep-it-really-simple-stupid/#read-receipts-are-you-kidding-me-seriously-fuck-that-noise">Cory
+          Doctorow article</a>
+        for the benefits. Free and paid feed readers are available for all
+        devices, as well as on the web and as browser extensions.
+      </p>
+      <h2>What feeds are available here?</h2>
+      <p>
+        A feed for all new crosswords on MyCrossword, plus a feed for each
+        individual setter. Feeds are updated every three hours and contain the
+        10 most recent puzzles from each setter. Just right-click "copy link"
+        on the feed icon and paste into your feed reader.
+      </p>
+    </div>
+    <a class="all-setters-link" href="/feed/ALL_SETTERS.xml">
+      <div class="all-recent-box">
+        <div>All recent crosswords</div>
+        <img class="feed-icon" src="/icons8-rss-48.png" alt="RSS icon linking to feed for all recent crosswords" />
+      </div>
+    </a>
+    <table class="setters">
+      <tr>
+        <th>Setter</th>
+        <th>Crosswords</th>
+        <th>Feed</th>
+      </tr>
+
+      <tr>
+        {% for setter in setters %}
+      </tr>
+
+      <tr>
+        <td>
+          <a href="https://mycrossword.co.uk/{{ setter.username }}">{{ setter.username }}</a>
+        </td>
+        <td>{{ setter.crosswords }}</td>
+        <td>
+          <a href="/feed/{{ setter.username }}.xml"><img class="feed-icon" src="/icons8-rss-48.png"
+              alt="RSS icon linking to feed for {{ setter.username }} /"></a>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+  <footer>
+    <div>
+      <a target="_blank" href="https://icons8.com/icon/13841/rss">RSS</a> icon
+      by
+      <a target="_blank" href="https://icons8.com">Icons8</a>
+    </div>
+    <div class="contact">
+      <br>
+      <address>dyno@mycrsswrd.co.uk</address>
+      </br>
+  </footer>
+</body>
+
+</html>

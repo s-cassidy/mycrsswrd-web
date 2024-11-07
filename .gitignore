@@ -3,3 +3,4 @@ site/feed/
 site/index.html
 update.log
 __pycache__/
+cache/

@@ -4,6 +4,7 @@ from jinja2 import Template
 from datetime import datetime
 from dateutil import parser
 import os.path
+import json
 import logging
 
 logger = logging.getLogger(__name__)
@@ -24,10 +25,10 @@ if not setters:
 
 
 def check_recent(username, last_published):
-    if not os.path.exists(f"site/feed/{username}.xml"):
+    if not os.path.exists(f"site/feed/{username}.json"):
         return True
     feed_time = datetime.fromtimestamp(
-        os.path.getmtime(f"site/feed/{username}.xml")
+        os.path.getmtime(f"site/feed/{username}.json")
     )
     pub_time = parser.parse(last_published[:16])
     return pub_time > feed_time
@@ -47,17 +48,24 @@ for setter in setters:
         no_errors = False
         continue
 
-    if not check_recent(user, last_published):
-        continue
-    else:
-        feed = feeds.process_setter(user)
-        if not feed:
+    if check_recent(user, last_published):
+        crosswords = feeds.get_setter_crosswords(user)
+        if not crosswords:
             no_errors = False
             continue
-        with open(f"site/feed/{user}.xml", "w", encoding="utf-8") as f:
-            f.write(feed)
+        with open(f"cache/{user}.json", "w", encoding="utf-8") as f:
+            f.write(json.dumps(crosswords))
         updated = True
-    sleep(1)
+    else:
+        with open(f"cache/{user}.json", "r", encoding="utf-8") as f:
+            crosswords = json.loads(f.read())
+    feed = feeds.generate_setter_feed(user, crosswords)
+    if not feed:
+        no_errors = False
+        continue
+    with open(f"site/feed/{user}.xml", "w", encoding="utf-8") as f:
+        f.write(feed)
+    sleep(3)
 
 if updated:
     feed = feeds.generate_global_feed()

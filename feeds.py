@@ -60,7 +60,7 @@ def make_entry(feed, username, crossword):
     photographer_link = crossword.get("image_photographer_link", "")
     entry = feed.add_entry()
     entry.title(
-        f"{cw_type.title()} crossword No {cw_num}")
+        f"{cw_type.title()} crossword No {cw_num} by {username}")
     entry.author(
         {"name": username, "uri": f"https://mycrossword.co.uk/{username}"}
     )
@@ -68,8 +68,8 @@ def make_entry(feed, username, crossword):
         entry.published(parse_date(cw_date))
     entry.description(
         f"<p>Set by <a href='https://mycrossword.co.uk/{username}'>{username}</a></p>"
-        f"<img src='{image}'>" if image else ""
-        f"<br>Photo by <a href='{photographer_link}'>{photographer}</a>" if photographer else ""
+        f"<img src='{image}'>"
+        f"<br>Photo by <a href='{photographer_link}'>{photographer}</a>"
     )
     entry.link(
         {"href": f"https://mycrossword.co.uk/{type}/{crossword['published_num']}"}
@@ -104,7 +104,7 @@ def generate_global_feed():
     return feed.rss_str(pretty=True).decode("utf-8")
 
 
-def generate_setter_feed(username, info, crosswords):
+def generate_setter_feed(username, crosswords):
     setter = FeedGenerator()
     setter.title(
         f"{username} · MyCrossword"
@@ -121,9 +121,5 @@ def generate_setter_feed(username, info, crosswords):
 
 
 def process_setter(username):
-    info = get_setter_info(username)
-    crosswords = get_setter_crosswords(username)
-    if not (info and crosswords):
-        return False
     feed = generate_setter_feed(username, info, crosswords)
     return feed

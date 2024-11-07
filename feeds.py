@@ -47,7 +47,7 @@ def get_setter_info(username):
 
 
 def parse_date(date):
-    dt = datetime.fromisoformat(date[:16])
+    dt = datetime.strptime(date, "%Y-%m-%dT%H:%M:%S.%fZ")
     return dt.strftime("%a, %d %b %Y %H:%M:%S GMT")
 
 

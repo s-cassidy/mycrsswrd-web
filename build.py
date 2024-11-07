@@ -25,10 +25,10 @@ if not setters:
 
 
 def check_recent(username, last_published):
-    if not os.path.exists(f"site/feed/{username}.json"):
+    if not os.path.exists(f"cache/{username}.json"):
         return True
     feed_time = datetime.fromtimestamp(
-        os.path.getmtime(f"site/feed/{username}.json")
+        os.path.getmtime(f"cache/{username}.json")
     )
     pub_time = parser.parse(last_published[:16])
     return pub_time > feed_time
@@ -50,6 +50,7 @@ for setter in setters:
 
     if check_recent(user, last_published):
         crosswords = feeds.get_setter_crosswords(user)
+        sleep(3)
         if not crosswords:
             no_errors = False
             continue
@@ -65,7 +66,6 @@ for setter in setters:
         continue
     with open(f"site/feed/{user}.xml", "w", encoding="utf-8") as f:
         f.write(feed)
-    sleep(3)
 
 if updated:
     feed = feeds.generate_global_feed()

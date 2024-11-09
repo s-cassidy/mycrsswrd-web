@@ -1,4 +1,4 @@
 #!/usr/bin/bash
 source venv/bin/activate
-python build.py
+python main.py
 deactivate

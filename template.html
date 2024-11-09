@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>mycRSSwrd — RSS feeds for MyCrossword</title>
   <link href="style.css" rel="stylesheet" />
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/feed/ALL_SETTERS.rss">
 </head>
 
 <body>
@@ -22,26 +23,15 @@
         affiliated with MyCrossword and is maintained for the community by
         setter Dyno.
       </p>
-      <h2>What is RSS?</h2>
-      <p>
-        An RSS feed is a summary of the content on a website. An app called a
-        feed reader allows you to subscribe to feeds and displays
-        newly-published content for you to browse at your leisure. See this
-        <a
-          href="https://pluralistic.net/2024/10/16/keep-it-really-simple-stupid/#read-receipts-are-you-kidding-me-seriously-fuck-that-noise">Cory
-          Doctorow article</a>
-        for the benefits. Free and paid feed readers are available for all
-        devices, as well as on the web and as browser extensions.
-      </p>
       <h2>What feeds are available here?</h2>
       <p>
         A feed for all new crosswords on MyCrossword, plus a feed for each
         individual setter. Feeds are updated every three hours and contain the
         10 most recent puzzles from each setter. Just right-click "copy link"
-        on the feed icon and paste into your feed reader.
+        on the feed icon and paste into your feed reader. Feed URLs are currently case-sensitive.
       </p>
     </div>
-    <a class="all-setters-link" href="/feed/ALL_SETTERS.xml">
+    <a class="all-setters-link" href="/feed/ALL_SETTERS.rss">
       <div class="all-recent-box">
         <div>All recent crosswords</div>
         <img class="feed-icon" src="/icons8-rss-48.png" alt="RSS icon linking to feed for all recent crosswords" />
@@ -64,7 +54,7 @@
         </td>
         <td>{{ setter.crosswords }}</td>
         <td>
-          <a href="/feed/{{ setter.username }}.xml"><img class="feed-icon" src="/icons8-rss-48.png"
+          <a href="/feed/{{ setter.username }}.rss"><img class="feed-icon" src="/icons8-rss-48.png"
               alt="RSS icon linking to feed for {{ setter.username }} /" /></a>
         </td>
       </tr>

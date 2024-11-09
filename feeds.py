@@ -64,18 +64,9 @@ def generate_setter_feed(username, crosswords):
     setter.author(
         {"name": username, "uri": f"https://mycrossword.co.uk/{username}"}
     )
-<<<<<<< HEAD
-    setter.link({"href": f"https://mycrsswrd.co.uk/feed/{username}.rss", "rel": "self"})
-=======
     setter.link(
         {"href": SITE_DOMAIN + f"/feed/{username}.rss", "rel": "self"})
->>>>>>> b0ef2d195659785e0cd7006f71919b728333749f
     setter.description(f"Latest MyCrossword puzzles from {username}")
     for crossword in crosswords:
         make_entry(setter, username, crossword)
     return setter.rss_str(pretty=True).decode("utf-8")
-<<<<<<< HEAD
-
-
-=======
->>>>>>> b0ef2d195659785e0cd7006f71919b728333749f

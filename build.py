@@ -1,8 +1,10 @@
 import feeds
+import api
 from time import sleep
 from jinja2 import Template
 from datetime import datetime
 from dateutil import parser
+from os import makedirs
 import os.path
 import json
 import logging
@@ -16,7 +18,15 @@ formatter = logging.Formatter('%(asctime)s [%(levelname)s]: %(message)s')
 ch.setFormatter(formatter)
 logger.addHandler(ch)
 
-setters = feeds.get_setters()
+
+if not os.path.isdir('cache'):
+	makedirs('cache')	
+if not os.path.isdir('site'):
+	makedirs('cache')	
+if not os.path.isdir('site/feed'):
+	makedirs('site/feed')	
+
+setters = api.get_setters()
 
 if not setters:
     logger.error("Could not get setter list")
@@ -48,7 +58,7 @@ for setter in setters:
         continue
 
     if check_recent(user, last_published):
-        crosswords = feeds.get_setter_crosswords(user)
+        crosswords = api.get_setter_crosswords(user)
         sleep(3)
         if not crosswords:
             no_errors = False
@@ -63,14 +73,15 @@ for setter in setters:
     if not feed:
         no_errors = False
         continue
-    with open(f"site/feed/{user}.xml", "w", encoding="utf-8") as f:
+    with open(f"site/feed/{user}.rss", "w", encoding="utf-8") as f:
         f.write(feed)
 
 if updated:
-    feed = feeds.generate_global_feed()
+    all_crosswords = api.get_all_recent_crosswords()
+    feed = feeds.generate_global_feed(all_crosswords)
     if not feed:
         no_errors = False
-    with open("site/feed/ALL_SETTERS.xml", "w", encoding="utf-8") as f:
+    with open("site/feed/ALL_SETTERS.rss", "w", encoding="utf-8") as f:
         f.write(feed)
     if no_errors:
         logger.info("Updated feeds with no errors")

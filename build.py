@@ -20,20 +20,20 @@ logger.addHandler(ch)
 
 
 if not os.path.isdir('cache'):
-	makedirs('cache')	
+    makedirs('cache')
 if not os.path.isdir('site'):
-	makedirs('cache')	
+    makedirs('cache')
 if not os.path.isdir('site/feed'):
-	makedirs('site/feed')	
+    makedirs('site/feed')
+
 
 setters = api.get_setters()
-
 if not setters:
     logger.error("Could not get setter list")
     exit()
 
 
-def check_recent(username, last_published):
+def has_recent(username, last_published):
     if not os.path.exists(f"cache/{username}.json"):
         return True
     feed_time = datetime.fromtimestamp(
@@ -43,7 +43,7 @@ def check_recent(username, last_published):
     return pub_time > feed_time
 
 
-updated = False
+new_crosswords = False
 no_errors = True
 for setter in setters:
     user = setter.get("username", "")
@@ -57,26 +57,32 @@ for setter in setters:
         no_errors = False
         continue
 
-    if check_recent(user, last_published):
+    if has_recent(user, last_published):
         crosswords = api.get_setter_crosswords(user)
-        sleep(3)
+        sleep(1)
         if not crosswords:
             no_errors = False
             continue
         with open(f"cache/{user}.json", "w", encoding="utf-8") as f:
             f.write(json.dumps(crosswords))
-        updated = True
+        new_crosswords = True
+
     else:
+        # Use cached setter data if cached data is more recent than
+        # the last puzzle they published
         with open(f"cache/{user}.json", "r", encoding="utf-8") as f:
             crosswords = json.loads(f.read())
+
     feed = feeds.generate_setter_feed(user, crosswords)
     if not feed:
         no_errors = False
         continue
+
     with open(f"site/feed/{user}.rss", "w", encoding="utf-8") as f:
         f.write(feed)
 
-if updated:
+
+if new_crosswords:
     all_crosswords = api.get_all_recent_crosswords()
     feed = feeds.generate_global_feed(all_crosswords)
     if not feed:

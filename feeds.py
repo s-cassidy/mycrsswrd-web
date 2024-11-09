@@ -3,11 +3,12 @@ from datetime import datetime
 from time import time
 import logging
 
+SITE_DOMAIN = "https://mycrsswrd.co.uk"
+
 logger = logging.getLogger(__name__)
 
 
-
-def parse_date(date):
+def convert_date(date):
     dt = datetime.strptime(date, "%Y-%m-%dT%H:%M:%S.%fZ")
     return dt.strftime("%a, %d %b %Y %H:%M:%S GMT")
 
@@ -26,9 +27,8 @@ def make_entry(feed, username, crossword):
         {"name": username, "uri": f"https://mycrossword.co.uk/{username}"}
     )
     if cw_date:
-        entry.published(parse_date(cw_date))
+        entry.published(convert_date(cw_date))
     entry.description(
-        f"<p>Set by <a href='https://mycrossword.co.uk/{username}'>{username}</a></p>"
         f"<img src='{image}'>"
         f"<br>Photo by <a href='{photographer_link}'>{photographer}</a>"
     )
@@ -48,7 +48,7 @@ def generate_global_feed(crosswords):
     )
     feed.link({"href": "https://mycrossword.co.uk/"})
     feed.link(
-        {"href": "https://mycrsswrd.co.uk/feed/ALL_SETTERS.rss", "rel": "self"})
+        {"href": SITE_DOMAIN + "/feed/ALL_SETTERS.rss", "rel": "self"})
     feed.description("Latest MyCrossword puzzles")
     for crossword in crosswords:
         make_entry(feed, crossword["username"], crossword)
@@ -64,10 +64,18 @@ def generate_setter_feed(username, crosswords):
     setter.author(
         {"name": username, "uri": f"https://mycrossword.co.uk/{username}"}
     )
+<<<<<<< HEAD
     setter.link({"href": f"https://mycrsswrd.co.uk/feed/{username}.rss", "rel": "self"})
+=======
+    setter.link(
+        {"href": SITE_DOMAIN + f"/feed/{username}.rss", "rel": "self"})
+>>>>>>> b0ef2d195659785e0cd7006f71919b728333749f
     setter.description(f"Latest MyCrossword puzzles from {username}")
     for crossword in crosswords:
         make_entry(setter, username, crossword)
     return setter.rss_str(pretty=True).decode("utf-8")
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> b0ef2d195659785e0cd7006f71919b728333749f

@@ -33,7 +33,6 @@ def get_setter_crosswords(username):
     crosswords = crosswords_response.json()["crosswords"]
     return crosswords
 
-
 def get_all_recent_crosswords():
     response = request(
         "GET",

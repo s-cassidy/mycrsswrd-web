@@ -6,7 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>mycRSSwrd — RSS feeds for MyCrossword</title>
   <link href="style.css" rel="stylesheet" />
-  <link rel="alternate" type="application/rss+xml" title="RSS" href="/feed/ALL_SETTERS.rss" </head>
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/feed/ALL_SETTERS.rss">
+</head>
+=======
 
 <body>
   <header>
@@ -31,7 +33,7 @@
         currently case-sensitive.
       </p>
     </div>
-    <a class="all-setters-link" href="/feed/ALL_SETTERS.xml">
+    <a class="all-setters-link" href="/feed/ALL_SETTERS.rss">
       <div class="all-recent-box">
         <div>All recent crosswords</div>
         <img class="feed-icon" src="/icons8-rss-48.png" alt="RSS icon linking to feed for all recent crosswords" />
@@ -54,7 +56,7 @@
         </td>
         <td>{{ setter.crosswords }}</td>
         <td>
-          <a href="/feed/{{ setter.username }}.xml"><img class="feed-icon" src="/icons8-rss-48.png"
+          <a href="/feed/{{ setter.username }}.rss"><img class="feed-icon" src="/icons8-rss-48.png"
               alt="RSS icon linking to feed for {{ setter.username }} /" /></a>
         </td>
       </tr>

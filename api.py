@@ -5,7 +5,7 @@ logger = logging.getLogger(__name__)
 
 API_URL = "https://mycrossword.co.uk/api/crossword"
 SETTER_REQUEST = "/getpublished?type=all&sort=n&timeWindow=m&setter={username}&limit={limit}"
-ALL_RECENT_REQUEST = "getpublished?userId=894&type=all&sort=n&timeWindow=m&limit={limit}"
+ALL_RECENT_REQUEST = "/getpublished?userId=894&type=all&sort=n&timeWindow=m&limit={limit}"
 
 
 def get_setters():

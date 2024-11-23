@@ -35,6 +35,7 @@ def make_entry(feed, username, crossword):
     entry.link(
         {"href": f"https://mycrossword.co.uk/{cw_type}/{crossword['published_num']}"}
     )
+    entry.dc.dc_creator(f"{username}")
     entry.guid(
         f"https://mycrossword.co.uk/{cw_type}/{cw_num}",
         permalink=True
@@ -43,6 +44,7 @@ def make_entry(feed, username, crossword):
 
 def generate_global_feed(crosswords):
     feed = FeedGenerator()
+    feed.load_extension("dc")
     feed.title(
         "MyCrossword"
     )
@@ -57,6 +59,7 @@ def generate_global_feed(crosswords):
 
 def generate_setter_feed(username, crosswords):
     setter = FeedGenerator()
+    setter.load_extension("dc")
     setter.title(
         f"{username} · MyCrossword"
     )
